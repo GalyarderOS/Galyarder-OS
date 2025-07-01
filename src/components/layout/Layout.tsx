@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
+import { useAuthStore } from '@/lib/consciousness/auth'
 import { Header } from './Header'
 import { Dock } from './Dock'
 import { MobileDrawer } from '../nav/MobileDrawer'
 import { CommandPalette } from '../CommandPalette'
+import { AuthModal } from '../consciousness/AuthModal'
 import { cn } from '@/lib/utils'
 
 interface LayoutProps {
@@ -12,6 +14,17 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const { user: appUser } = useAppStore()
+  const { user: consciousnessUser, signOut } = useAuthStore()
+
+  // Check consciousness authentication status
+  useEffect(() => {
+    // If app user exists but no consciousness user, show auth modal
+    if (appUser && !consciousnessUser) {
+      setIsAuthModalOpen(true)
+    }
+  }, [appUser, consciousnessUser])
 
   // Listen for keyboard shortcut to open command palette
   useEffect(() => {
@@ -20,6 +33,11 @@ export function Layout({ children }: LayoutProps) {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault()
         setIsCommandPaletteOpen(true)
+      }
+      // Consciousness Auth shortcut (Ctrl+Shift+C)
+      if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+        e.preventDefault()
+        setIsAuthModalOpen(true)
       }
     }
     
@@ -48,6 +66,12 @@ export function Layout({ children }: LayoutProps) {
       <CommandPalette 
         isOpen={isCommandPaletteOpen} 
         onClose={() => setIsCommandPaletteOpen(false)} 
+      />
+
+      {/* Consciousness Authentication Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
       />
     </div>
   )

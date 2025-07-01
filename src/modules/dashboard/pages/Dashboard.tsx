@@ -5,6 +5,7 @@ import { getInitials, getAvatarGradient } from '../../../lib/utils'
 import { AIAssistantTerminal } from '../../aiassistant/components/AIAssistantTerminal'
 import { LifeAnalyticsGrid } from '../components/LifeAnalyticsGrid'
 import { MasterByDesignSection } from '../components/MasterByDesignSection'
+import { ConsciousnessOverview } from '../components/ConsciousnessOverview'
 
 export function Dashboard() {
   const { user } = useAppStore()
@@ -51,6 +52,15 @@ export function Dashboard() {
           <h2 className="text-5xl font-light text-white tracking-wide">
             {user?.name?.toLowerCase() || 'galyarder'}
           </h2>
+        </motion.div>
+
+        {/* ULTIMATE CONSCIOUSNESS OVERVIEW - The Main Feature */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <ConsciousnessOverview />
         </motion.div>
 
         {/* AI Assistant Terminal */}
