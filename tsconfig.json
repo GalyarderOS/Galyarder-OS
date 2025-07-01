@@ -15,7 +15,9 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["vite/client"]
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "types": ["vite/client", "@types/node", "vitest/globals"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

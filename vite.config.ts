@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { fileURLToPath, URL } from 'url';
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   plugins: [
@@ -38,13 +39,75 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              }
+            }
+          }
+        ]
       }
-    })
+    }),
+    // Bundle analyzer - only in analysis mode
+    ...(process.env.ANALYZE ? [visualizer({
+      filename: 'dist/stats.html',
+      open: true,
+      gzipSize: true,
+      brotliSize: true
+    })] : [])
   ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  build: {
+    // Optimize chunks
+    rollupOptions: {
+      output: {
+                 manualChunks: {
+           // Vendor chunks
+           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+           'vendor-ui': ['framer-motion', 'lucide-react', 'class-variance-authority', 'clsx', 'tailwind-merge'],
+           'vendor-data': ['@tanstack/react-query', 'zustand', 'zod', 'date-fns'],
+           'vendor-charts': ['recharts']
+         }
+      }
+    },
+    // Target modern browsers for smaller bundles
+    target: 'es2020',
+    // Increase chunk size warning limit temporarily while we optimize
+    chunkSizeWarningLimit: 1000,
+    // Enable source maps for better debugging
+    sourcemap: false, // Disable in production for smaller bundles
+    // Minification settings
+    minify: 'esbuild',
+    cssMinify: true
+  },
+  // Development optimizations
+  server: {
+    hmr: {
+      overlay: false
+    }
+  },
+  // Optimize dependencies
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      '@tanstack/react-query',
+      'zustand',
+      'framer-motion',
+      'lucide-react'
+    ],
+    exclude: ['recharts'] // Lazy load heavy charts
+  }
 })

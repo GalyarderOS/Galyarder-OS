@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { Layout } from './components/layout/Layout'
 import { AuthLayout } from './components/AuthLayout'
@@ -6,41 +6,53 @@ import { LandingPage } from './pages/LandingPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { LoginPage } from './pages/LoginPage'
 import { AnimationDemo } from './pages/AnimationDemo'
-import { Dashboard } from './modules/dashboard/pages/Dashboard'
-import { WelcomeScreen } from './modules/dashboard/pages/WelcomeScreen'
-import { AIAssistant } from './modules/aiassistant/pages/AIAssistant'
-import { ChronoCopilot } from './modules/chronocopilot/pages/ChronoCopilot'
-import { FinanceHub } from './modules/financehub/pages/FinanceHub'
-import { HealthForge } from './modules/healthforge/pages/HealthForge'
-import { ProductivityMatrix } from './modules/productivitymatrix/pages/ProductivityMatrix'
-import { CareerCommand } from './modules/careercommand/pages/CareerCommand'
-import { MindGuard } from './modules/mindguard/pages/MindGuard'
-import { SystemLogs } from './modules/systemlogs/pages/SystemLogs'
-import { RelationshipsForge } from './modules/relationshipsforge/pages/RelationshipsForge'
-import { LegacyBuilder } from './modules/legacybuilder/pages/LegacyBuilder'
-import { KnowledgeArsenal } from './modules/knowledgearsenal/pages/KnowledgeArsenal'
-import { NetworkNexus } from './modules/networknexus/pages/NetworkNexus'
-import { CommunicationConsole } from './modules/communicationconsole/pages/CommunicationConsole'
-import { PrivacyVault } from './modules/privacyvault/pages/PrivacyVault'
-import { Calendar } from './modules/calendar/pages/Calendar'
-import { Files } from './modules/files/pages/Files'
-import { Calculator } from './modules/calculator/pages/Calculator'
 import { Settings } from './pages/Settings'
-import { AppDrawer } from './modules/appdrawer/pages/AppDrawer'
-
-// New Advanced Modules
-import { EnvironmentArchitect } from './modules/environmentarchitect/pages/EnvironmentArchitect'
-import { SleepArchitect } from './modules/sleeparchitect/pages/SleepArchitect'
-import { SpiritualForge } from './modules/spiritualforge/pages/SpiritualForge'
-import { MetaMemory } from './modules/metamemory/pages/MetaMemory'
-import { OpsCenter } from './modules/opscenter/pages/OpsCenter'
-import { FamilyMatrix } from './modules/familymatrix/pages/FamilyMatrix'
-import { DigitalSovereigntyVault } from './modules/digitalsovereigntyvault/pages/DigitalSovereigntyVault'
-import { WorldIntelligence } from './modules/worldintelligence/pages/WorldIntelligence'
-import { SystemKernel } from './modules/systemkernel/pages/SystemKernel'
-
 import { useAppStore } from './lib/store'
 import { useKeyboardShortcuts } from './lib/hooks/useKeyboardShortcuts'
+import { lazy } from 'react'
+
+// Lazy load all modules for code splitting
+const Dashboard = lazy(() => import('./modules/dashboard/pages/Dashboard').then(m => ({ default: m.Dashboard })))
+const WelcomeScreen = lazy(() => import('./modules/dashboard/pages/WelcomeScreen').then(m => ({ default: m.WelcomeScreen })))
+const AIAssistant = lazy(() => import('./modules/aiassistant/pages/AIAssistant').then(m => ({ default: m.AIAssistant })))
+const ChronoCopilot = lazy(() => import('./modules/chronocopilot/pages/ChronoCopilot').then(m => ({ default: m.ChronoCopilot })))
+const FinanceHub = lazy(() => import('./modules/financehub/pages/FinanceHub').then(m => ({ default: m.FinanceHub })))
+const HealthForge = lazy(() => import('./modules/healthforge/pages/HealthForge').then(m => ({ default: m.HealthForge })))
+const ProductivityMatrix = lazy(() => import('./modules/productivitymatrix/pages/ProductivityMatrix').then(m => ({ default: m.ProductivityMatrix })))
+const CareerCommand = lazy(() => import('./modules/careercommand/pages/CareerCommand').then(m => ({ default: m.CareerCommand })))
+const MindGuard = lazy(() => import('./modules/mindguard/pages/MindGuard').then(m => ({ default: m.MindGuard })))
+const SystemLogs = lazy(() => import('./modules/systemlogs/pages/SystemLogs').then(m => ({ default: m.SystemLogs })))
+const RelationshipsForge = lazy(() => import('./modules/relationshipsforge/pages/RelationshipsForge').then(m => ({ default: m.RelationshipsForge })))
+const LegacyBuilder = lazy(() => import('./modules/legacybuilder/pages/LegacyBuilder').then(m => ({ default: m.LegacyBuilder })))
+const KnowledgeArsenal = lazy(() => import('./modules/knowledgearsenal/pages/KnowledgeArsenal').then(m => ({ default: m.KnowledgeArsenal })))
+const NetworkNexus = lazy(() => import('./modules/networknexus/pages/NetworkNexus').then(m => ({ default: m.NetworkNexus })))
+const CommunicationConsole = lazy(() => import('./modules/communicationconsole/pages/CommunicationConsole').then(m => ({ default: m.CommunicationConsole })))
+const PrivacyVault = lazy(() => import('./modules/privacyvault/pages/PrivacyVault').then(m => ({ default: m.PrivacyVault })))
+const Calendar = lazy(() => import('./modules/calendar/pages/Calendar').then(m => ({ default: m.Calendar })))
+const Files = lazy(() => import('./modules/files/pages/Files').then(m => ({ default: m.Files })))
+const Calculator = lazy(() => import('./modules/calculator/pages/Calculator').then(m => ({ default: m.Calculator })))
+const AppDrawer = lazy(() => import('./modules/appdrawer/pages/AppDrawer').then(m => ({ default: m.AppDrawer })))
+
+// Advanced Modules
+const EnvironmentArchitect = lazy(() => import('./modules/environmentarchitect/pages/EnvironmentArchitect').then(m => ({ default: m.EnvironmentArchitect })))
+const SleepArchitect = lazy(() => import('./modules/sleeparchitect/pages/SleepArchitect').then(m => ({ default: m.SleepArchitect })))
+const SpiritualForge = lazy(() => import('./modules/spiritualforge/pages/SpiritualForge').then(m => ({ default: m.SpiritualForge })))
+const MetaMemory = lazy(() => import('./modules/metamemory/pages/MetaMemory').then(m => ({ default: m.MetaMemory })))
+const OpsCenter = lazy(() => import('./modules/opscenter/pages/OpsCenter').then(m => ({ default: m.OpsCenter })))
+const FamilyMatrix = lazy(() => import('./modules/familymatrix/pages/FamilyMatrix').then(m => ({ default: m.FamilyMatrix })))
+const DigitalSovereigntyVault = lazy(() => import('./modules/digitalsovereigntyvault/pages/DigitalSovereigntyVault').then(m => ({ default: m.DigitalSovereigntyVault })))
+const WorldIntelligence = lazy(() => import('./modules/worldintelligence/pages/WorldIntelligence').then(m => ({ default: m.WorldIntelligence })))
+const SystemKernel = lazy(() => import('./modules/systemkernel/pages/SystemKernel').then(m => ({ default: m.SystemKernel })))
+
+// Loading component for Suspense
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-screen bg-slate-900">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto mb-4"></div>
+      <div className="text-slate-300 text-sm">Loading module...</div>
+    </div>
+  </div>
+)
 
 function App() {
   const navigate = useNavigate()
@@ -106,157 +118,215 @@ function App() {
       {/* Welcome Flow */}
       <Route path="/welcome" element={
         <Layout>
-          <WelcomeScreen />
+          <Suspense fallback={<LoadingFallback />}>
+            <WelcomeScreen />
+          </Suspense>
         </Layout>
       } />
 
       {/* Protected App Routes */}
       <Route path="/app/dashboard" element={
         <Layout>
-          <Dashboard />
+          <Suspense fallback={<LoadingFallback />}>
+            <Dashboard />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/ai-assistant" element={
         <Layout>
-          <AIAssistant />
+          <Suspense fallback={<LoadingFallback />}>
+            <AIAssistant />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/chrono-copilot" element={
         <Layout>
-          <ChronoCopilot />
+          <Suspense fallback={<LoadingFallback />}>
+            <ChronoCopilot />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/finance-hub" element={
         <Layout>
-          <FinanceHub />
+          <Suspense fallback={<LoadingFallback />}>
+            <FinanceHub />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/health-forge" element={
         <Layout>
-          <HealthForge />
+          <Suspense fallback={<LoadingFallback />}>
+            <HealthForge />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/productivity-matrix" element={
         <Layout>
-          <ProductivityMatrix />
+          <Suspense fallback={<LoadingFallback />}>
+            <ProductivityMatrix />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/career-command" element={
         <Layout>
-          <CareerCommand />
+          <Suspense fallback={<LoadingFallback />}>
+            <CareerCommand />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/mind-guard" element={
         <Layout>
-          <MindGuard />
+          <Suspense fallback={<LoadingFallback />}>
+            <MindGuard />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/system-logs" element={
         <Layout>
-          <SystemLogs />
+          <Suspense fallback={<LoadingFallback />}>
+            <SystemLogs />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/relationships-forge" element={
         <Layout>
-          <RelationshipsForge />
+          <Suspense fallback={<LoadingFallback />}>
+            <RelationshipsForge />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/legacy-builder" element={
         <Layout>
-          <LegacyBuilder />
+          <Suspense fallback={<LoadingFallback />}>
+            <LegacyBuilder />
+          </Suspense>
         </Layout>
       } />
       
       {/* Existing New Module Routes */}
       <Route path="/app/knowledge-arsenal" element={
         <Layout>
-          <KnowledgeArsenal />
+          <Suspense fallback={<LoadingFallback />}>
+            <KnowledgeArsenal />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/network-nexus" element={
         <Layout>
-          <NetworkNexus />
+          <Suspense fallback={<LoadingFallback />}>
+            <NetworkNexus />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/communication-console" element={
         <Layout>
-          <CommunicationConsole />
+          <Suspense fallback={<LoadingFallback />}>
+            <CommunicationConsole />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/privacy-vault" element={
         <Layout>
-          <PrivacyVault />
+          <Suspense fallback={<LoadingFallback />}>
+            <PrivacyVault />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/calendar" element={
         <Layout>
-          <Calendar />
+          <Suspense fallback={<LoadingFallback />}>
+            <Calendar />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/files" element={
         <Layout>
-          <Files />
+          <Suspense fallback={<LoadingFallback />}>
+            <Files />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/calculator" element={
         <Layout>
-          <Calculator />
+          <Suspense fallback={<LoadingFallback />}>
+            <Calculator />
+          </Suspense>
         </Layout>
       } />
       
       {/* App Drawer */}
       <Route path="/app/app-drawer" element={
         <Layout>
-          <AppDrawer />
+          <Suspense fallback={<LoadingFallback />}>
+            <AppDrawer />
+          </Suspense>
         </Layout>
       } />
       
       {/* Advanced Module Routes */}
       <Route path="/app/environment-architect" element={
         <Layout>
-          <EnvironmentArchitect />
+          <Suspense fallback={<LoadingFallback />}>
+            <EnvironmentArchitect />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/sleep-architect" element={
         <Layout>
-          <SleepArchitect />
+          <Suspense fallback={<LoadingFallback />}>
+            <SleepArchitect />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/spiritual-forge" element={
         <Layout>
-          <SpiritualForge />
+          <Suspense fallback={<LoadingFallback />}>
+            <SpiritualForge />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/meta-memory" element={
         <Layout>
-          <MetaMemory />
+          <Suspense fallback={<LoadingFallback />}>
+            <MetaMemory />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/ops-center" element={
         <Layout>
-          <OpsCenter />
+          <Suspense fallback={<LoadingFallback />}>
+            <OpsCenter />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/family-matrix" element={
         <Layout>
-          <FamilyMatrix />
+          <Suspense fallback={<LoadingFallback />}>
+            <FamilyMatrix />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/digital-sovereignty" element={
         <Layout>
-          <DigitalSovereigntyVault />
+          <Suspense fallback={<LoadingFallback />}>
+            <DigitalSovereigntyVault />
+          </Suspense>
         </Layout>
       } />
       <Route path="/app/world-intelligence" element={
         <Layout>
-          <WorldIntelligence />
+          <Suspense fallback={<LoadingFallback />}>
+            <WorldIntelligence />
+          </Suspense>
         </Layout>
       } />
       
       {/* System Kernel */}
       <Route path="/app/system-kernel" element={
         <Layout>
-          <SystemKernel />
+          <Suspense fallback={<LoadingFallback />}>
+            <SystemKernel />
+          </Suspense>
         </Layout>
       } />
       

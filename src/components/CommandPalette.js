@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, ArrowRight, Command } from 'lucide-react';
-import { allModules, iconMap } from '../data/modules';
+import { allModules, iconMap } from '@/data/modules';
 export function CommandPalette({ isOpen, onClose }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);

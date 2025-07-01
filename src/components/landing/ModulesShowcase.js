@@ -1,52 +1,43 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
-import { allModules, iconMap } from '@/data/modules';
+import { iconMap } from '../../data/modules';
+import { modulesConfig } from '../../data/modules.config'; // Ensure ModuleConfig is exported
+import { cn } from '../../lib/utils';
+const TABS = ['All', 'Core', 'Personal', 'Advanced'];
+const containerVariants = {
+    hidden: {},
+    visible: {
+        transition: {
+            staggerChildren: 0.08,
+        },
+    },
+};
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: { type: 'spring' },
+    },
+};
+const badgeColors = {
+    Core: 'bg-blue-900/50 text-blue-300 border border-blue-500/30',
+    Personal: 'bg-green-900/50 text-green-300 border border-green-500/30',
+    Advanced: 'bg-violet-900/50 text-violet-300 border border-violet-500/30',
+};
 export function ModulesShowcase() {
-    const [activeCategory, setActiveCategory] = useState('all');
-    // Filter modules based on category
-    const filteredModules = activeCategory === 'all'
-        ? allModules
-        : allModules.filter(module => module.tag?.toLowerCase() === activeCategory.toLowerCase());
-    // Sort modules alphabetically within each group
-    const sortedModules = [...filteredModules].sort((a, b) => {
-        // First sort by tag (Core, Personal, Advanced)
-        const tagOrder = { 'Core': 1, 'Personal': 2, 'Advanced': 3 };
-        const aTagOrder = a.tag ? tagOrder[a.tag] || 4 : 4;
-        const bTagOrder = b.tag ? tagOrder[b.tag] || 4 : 4;
-        if (aTagOrder !== bTagOrder) {
-            return aTagOrder - bTagOrder;
-        }
-        // Then sort alphabetically by name
-        return a.name.localeCompare(b.name);
-    });
-    // Get tag color based on category
-    const getTagColor = (tag) => {
-        if (!tag)
-            return "bg-slate-700 text-slate-300";
-        switch (tag.toLowerCase()) {
-            case 'core':
-                return "bg-blue-600/20 text-blue-400";
-            case 'personal':
-                return "bg-emerald-600/20 text-emerald-400";
-            case 'advanced':
-                return "bg-purple-600/20 text-purple-400";
-            default:
-                return "bg-slate-700 text-slate-300";
-        }
-    };
-    return (_jsxs("section", { id: "features", className: "py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden", children: [_jsxs("div", { className: "absolute inset-0 z-0", children: [_jsx("div", { className: "absolute inset-0 bg-slate-950 opacity-90" }), _jsx("div", { className: "absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" }), _jsx("div", { className: "absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent" }), _jsx("div", { className: "absolute inset-0", children: _jsx("div", { className: "h-full w-full bg-[radial-gradient(#3b82f6_1px,transparent_1px),linear-gradient(to_right,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:16px_16px] opacity-[0.15]" }) })] }), _jsxs("div", { className: "max-w-7xl mx-auto relative z-10", children: [_jsxs("div", { className: "text-center mb-16", children: [_jsxs(motion.h2, { className: "text-4xl md:text-5xl font-bold text-white mb-6", initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.8 }, children: ["Everything You Need to", ' ', _jsx("span", { className: "bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent", children: "Build Your Personal Civilization" })] }), _jsx(motion.p, { className: "text-xl text-slate-300 max-w-3xl mx-auto", initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.8, delay: 0.2 }, children: "27+ integrated life modules to master productivity, finance, health, relationships, and legacy." }), _jsx(motion.div, { className: "flex flex-wrap justify-center gap-3 mt-8", initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.8, delay: 0.3 }, children: ['all', 'core', 'personal', 'advanced'].map((category) => (_jsxs("button", { onClick: () => setActiveCategory(category), className: `px-4 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === category
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`, children: [category.charAt(0).toUpperCase() + category.slice(1), " Modules"] }, category))) })] }), _jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6", children: sortedModules.map((module, index) => {
-                            // Skip command-palette as it's a system module
-                            if (module.id === 'command-palette')
-                                return null;
-                            const ModuleIcon = iconMap[module.icon];
-                            return (_jsxs(motion.div, { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.5, delay: index * 0.05 }, whileHover: {
-                                    y: -5,
-                                    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)"
-                                }, className: "bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-slate-600 transition-all duration-300", children: [_jsxs("div", { className: "flex items-start space-x-4", children: [_jsx("div", { className: `p-3 rounded-xl bg-gradient-to-br ${module.color}`, children: ModuleIcon && _jsx(ModuleIcon, { className: "w-6 h-6 text-white" }) }), _jsxs("div", { children: [_jsxs("div", { className: "flex items-center mb-2", children: [_jsx("h3", { className: "text-xl font-semibold text-white", children: module.name }), module.tag && (_jsx("span", { className: `ml-2 text-xs px-2 py-0.5 rounded-full ${getTagColor(module.tag)}`, children: module.tag }))] }), _jsx("p", { className: "text-slate-300", children: module.description }), module.shortcut && (_jsxs("p", { className: "text-xs text-slate-400 mt-1", children: ["Shortcut: ", module.shortcut] }))] })] }), _jsx("div", { className: "mt-4 pl-14", children: _jsx("div", { className: "space-y-2", children: Array.from({ length: 3 }).map((_, i) => (_jsxs("div", { className: "flex items-center space-x-2", children: [_jsx("div", { className: "w-1 h-1 rounded-full bg-blue-400" }), _jsx("div", { className: "h-2 bg-slate-700 rounded w-full" })] }, i))) }) })] }, module.id));
-                        }) }), _jsx(motion.div, { className: "text-center mt-12", initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.8, delay: 0.5 }, children: _jsxs(Link, { to: "/register", className: "inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all duration-200 shadow-lg shadow-blue-600/20", children: [_jsx("span", { children: "Explore All Modules" }), _jsx(ChevronRight, { className: "w-5 h-5" })] }) })] })] }));
+    const [activeTab, setActiveTab] = useState(TABS[0]);
+    const filteredModules = useMemo(() => {
+        if (activeTab === 'All')
+            return modulesConfig;
+        return modulesConfig.filter((m) => m.category === activeTab);
+    }, [activeTab]);
+    return (_jsxs("section", { id: "features", className: "py-20 px-4 sm:px-6 lg:px-8", children: [_jsxs("div", { className: "max-w-7xl mx-auto text-center mb-12", children: [_jsxs(motion.h2, { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.5 }, transition: { duration: 0.5 }, className: "text-4xl md:text-5xl font-bold text-white mb-6", children: ["Everything You Need to ", _jsx("span", { className: "bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent", children: "Build Your Personal Civilization" })] }), _jsx(motion.p, { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.5 }, transition: { duration: 0.5, delay: 0.1 }, className: "text-xl text-slate-300 max-w-3xl mx-auto", children: "27+ integrated life modules to master productivity, finance, health, relationships, and legacy." }), _jsx(motion.div, { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.5 }, transition: { duration: 0.5, delay: 0.2 }, className: "flex flex-wrap justify-center gap-3 mt-8", children: TABS.map((tab) => (_jsxs("button", { onClick: () => setActiveTab(tab), className: cn('px-4 py-2 rounded-full text-sm font-medium transition-all', activeTab === tab
+                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'), children: [tab, " Modules"] }, tab))) })] }), _jsx(motion.div, { variants: containerVariants, initial: "hidden", animate: "visible", className: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6", children: filteredModules.map((module) => {
+                    const ModuleIcon = iconMap[module.icon];
+                    return (_jsx(motion.div, { variants: itemVariants, children: _jsxs(Link, { to: `/modules/${module.slug}`, className: "group flex h-full w-full flex-col rounded-xl border border-slate-800 bg-slate-900/50 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))] p-6 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/50 hover:bg-slate-900 hover:shadow-2xl hover:shadow-blue-600/10", children: [_jsxs("div", { className: "flex items-start justify-between", children: [_jsx("div", { className: `p-3 rounded-xl bg-gradient-to-br ${module.color}`, children: ModuleIcon && _jsx(ModuleIcon, { className: "h-6 w-6 text-white transition-transform duration-300 group-hover:scale-110" }) }), _jsx("span", { className: cn('text-xs px-2 py-1 rounded-full', badgeColors[module.category]), children: module.category })] }), _jsxs("div", { className: "mt-4 flex flex-grow flex-col justify-start", children: [_jsx("h3", { className: "text-lg font-semibold text-slate-100", children: module.name }), _jsx("p", { className: "mt-2 text-sm text-slate-400", children: module.description })] })] }) }, module.slug));
+                }) })] }));
 }
