@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import { fileURLToPath, URL } from 'url';
 import { visualizer } from 'rollup-plugin-visualizer'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     VitePWA({
@@ -72,13 +72,13 @@ export default defineConfig({
     // Optimize chunks
     rollupOptions: {
       output: {
-                 manualChunks: {
-           // Vendor chunks
-           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-           'vendor-ui': ['framer-motion', 'lucide-react', 'class-variance-authority', 'clsx', 'tailwind-merge'],
-           'vendor-data': ['@tanstack/react-query', 'zustand', 'zod', 'date-fns'],
-           'vendor-charts': ['recharts']
-         }
+        manualChunks: {
+          // Vendor chunks
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-ui': ['framer-motion', 'lucide-react', 'class-variance-authority', 'clsx', 'tailwind-merge'],
+          'vendor-data': ['@tanstack/react-query', 'zustand', 'zod', 'date-fns'],
+          'vendor-charts': ['recharts']
+        }
       }
     },
     // Target modern browsers for smaller bundles
@@ -86,7 +86,7 @@ export default defineConfig({
     // Increase chunk size warning limit temporarily while we optimize
     chunkSizeWarningLimit: 1000,
     // Enable source maps for better debugging
-    sourcemap: false, // Disable in production for smaller bundles
+    sourcemap: mode === 'development',
     // Minification settings
     minify: 'esbuild',
     cssMinify: true
@@ -109,5 +109,9 @@ export default defineConfig({
       'lucide-react'
     ],
     exclude: ['recharts'] // Lazy load heavy charts
-  }
-})
+  },
+  // Add esbuild configuration to ignore TypeScript errors in development
+  esbuild: mode === 'development' ? {
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  } : undefined
+}))
