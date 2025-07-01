@@ -12,7 +12,7 @@ const mockProjects: Project[] = [
     startDate: '2024-02-01',
     endDate: '2024-03-15',
     progress: 35,
-    tasks: [],
+    tasks: ['1', '2'],
     clients: ['client1'],
     team: ['John Doe', 'Sarah Smith'],
     tags: ['design', 'development', 'branding'],
@@ -143,14 +143,11 @@ const mockWorkflows: Workflow[] = [
   }
 ]
 
-// Add tasks to projects
-mockProjects[0].tasks = mockTasks.filter(task => task.projectId === '1').map(task => task.id)
-mockProjects[1].tasks = mockTasks.filter(task => task.projectId === '2').map(task => task.id)
-
 export const useOpsCenterStore = create<OpsCenterState>()(
   persist(
     (set, get) => ({
       projects: mockProjects,
+      tasks: mockTasks,
       clients: mockClients,
       workflows: mockWorkflows,
 

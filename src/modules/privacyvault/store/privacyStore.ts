@@ -139,7 +139,7 @@ export const usePrivacyStore = create<PrivacyState>()(
       securityAudits: mockSecurityAudits,
       privacySettings: mockPrivacySettings,
 
-      addVaultItem: (item) => {
+      addVaultItem: (item: Omit<VaultItem, 'id' | 'createdAt' | 'updatedAt'>) => {
         const newItem: VaultItem = {
           ...item,
           id: Math.random().toString(36).substr(2, 9),
@@ -154,7 +154,7 @@ export const usePrivacyStore = create<PrivacyState>()(
         get().logAccess('create', newItem.id, 'Created new vault item')
       },
 
-      updateVaultItem: (id, updates) => {
+      updateVaultItem: (id: string, updates: Partial<VaultItem>) => {
         set((state) => ({
           vaultItems: state.vaultItems.map(item =>
             item.id === id 
@@ -166,7 +166,7 @@ export const usePrivacyStore = create<PrivacyState>()(
         get().logAccess('edit', id, 'Updated vault item')
       },
 
-      deleteVaultItem: (id) => {
+      deleteVaultItem: (id: string) => {
         set((state) => ({
           vaultItems: state.vaultItems.filter(item => item.id !== id)
         }))
@@ -174,7 +174,7 @@ export const usePrivacyStore = create<PrivacyState>()(
         get().logAccess('delete', id, 'Deleted vault item')
       },
 
-      accessVaultItem: (id) => {
+      accessVaultItem: (id: string) => {
         set((state) => ({
           vaultItems: state.vaultItems.map(item =>
             item.id === id 
@@ -186,7 +186,7 @@ export const usePrivacyStore = create<PrivacyState>()(
         get().logAccess('view', id, 'Accessed vault item')
       },
 
-      addSecurityKey: (key) => {
+      addSecurityKey: (key: Omit<SecurityKey, 'id' | 'createdAt'>) => {
         const newKey: SecurityKey = {
           ...key,
           id: Math.random().toString(36).substr(2, 9),
@@ -197,7 +197,7 @@ export const usePrivacyStore = create<PrivacyState>()(
         }))
       },
 
-      updateSecurityKey: (id, updates) => {
+      updateSecurityKey: (id: string, updates: Partial<SecurityKey>) => {
         set((state) => ({
           securityKeys: state.securityKeys.map(key =>
             key.id === id ? { ...key, ...updates } : key
@@ -205,7 +205,7 @@ export const usePrivacyStore = create<PrivacyState>()(
         }))
       },
 
-      revokeSecurityKey: (id) => {
+      revokeSecurityKey: (id: string) => {
         set((state) => ({
           securityKeys: state.securityKeys.map(key =>
             key.id === id ? { ...key, status: 'revoked' as const } : key
@@ -213,7 +213,7 @@ export const usePrivacyStore = create<PrivacyState>()(
         }))
       },
 
-      runSecurityAudit: (type) => {
+      runSecurityAudit: (type: SecurityAudit['type']) => {
         // Mock audit results
         const mockAudit: SecurityAudit = {
           id: Math.random().toString(36).substr(2, 9),
@@ -233,13 +233,13 @@ export const usePrivacyStore = create<PrivacyState>()(
         }))
       },
 
-      updatePrivacySettings: (settings) => {
+      updatePrivacySettings: (settings: Partial<PrivacySettings>) => {
         set((state) => ({
           privacySettings: { ...state.privacySettings, ...settings }
         }))
       },
 
-      // Helper method to log access (not exposed in interface)
+      // Helper method to log access
       logAccess: (action: AccessLog['action'], itemId?: string, details?: string) => {
         const newLog: AccessLog = {
           id: Math.random().toString(36).substr(2, 9),
@@ -247,7 +247,7 @@ export const usePrivacyStore = create<PrivacyState>()(
           action,
           timestamp: new Date().toISOString(),
           ipAddress: '192.168.1.100', // Mock IP
-          userAgent: navigator.userAgent,
+          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Unknown',
           location: 'Unknown', // Would be determined by IP geolocation
           success: true,
           details
@@ -257,7 +257,7 @@ export const usePrivacyStore = create<PrivacyState>()(
           accessLogs: [newLog, ...state.accessLogs].slice(0, 100) // Keep last 100 logs
         }))
       }
-    } as any),
+    }),
     {
       name: 'privacy-vault-storage',
       partialize: (state) => ({

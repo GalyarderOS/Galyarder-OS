@@ -1,7 +1,26 @@
+import { useState } from 'react'
 import { useNetworkStore } from '../store/networkStore'
+
+interface NetworkSuggestion {
+  id: string
+  type: 'contact' | 'opportunity' | 'insight'
+  title: string
+  description: string
+  priority: 'low' | 'medium' | 'high'
+  actionable: boolean
+}
+
+interface NetworkAnalysis {
+  insights: string[]
+  suggestions: NetworkSuggestion[]
+  networkScore: number
+  growthOpportunities: string[]
+}
 
 export function useNetworkAI() {
   const { contacts, interactions, followUps } = useNetworkStore()
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [analysis, setAnalysis] = useState<NetworkAnalysis | null>(null)
 
   const getAIContext = () => {
     return {
@@ -84,7 +103,7 @@ export function useNetworkAI() {
   }
 
   const suggestFollowUps = () => {
-    const suggestions = []
+    const suggestions: any[] = []
     
     // Suggest follow-ups for recent positive interactions
     const recentPositiveInteractions = interactions
@@ -106,9 +125,107 @@ export function useNetworkAI() {
     return suggestions
   }
 
+  const analyzeNetwork = async (contacts: any[], interactions: any[]) => {
+    setIsAnalyzing(true)
+    
+    try {
+      // Simulate AI analysis
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      const networkScore = Math.floor(Math.random() * 40) + 60 // 60-100
+      
+      const insights = [
+        'Your network is strongest in the technology sector',
+        'Consider connecting with more senior-level professionals',
+        'Your interaction frequency has increased by 23% this month',
+        'Identify 3 key connectors who could introduce you to new opportunities'
+      ]
+      
+      const suggestions: NetworkSuggestion[] = [
+        {
+          id: '1',
+          type: 'contact',
+          title: 'Reach out to dormant connections',
+          description: 'Reconnect with 5 contacts you haven\'t spoken to in 3+ months',
+          priority: 'high',
+          actionable: true
+        },
+        {
+          id: '2',
+          type: 'opportunity',
+          title: 'Industry event networking',
+          description: 'Upcoming tech conference in your area - 200+ attendees',
+          priority: 'medium',
+          actionable: true
+        },
+        {
+          id: '3',
+          type: 'insight',
+          title: 'Network diversity analysis',
+          description: 'Your network could benefit from more diverse industry representation',
+          priority: 'medium',
+          actionable: false
+        }
+      ]
+      
+      const growthOpportunities = [
+        'Expand into healthcare and finance sectors',
+        'Increase C-level executive connections',
+        'Join industry-specific professional organizations',
+        'Engage more actively on professional social platforms'
+      ]
+      
+      const newAnalysis: NetworkAnalysis = {
+        insights,
+        suggestions,
+        networkScore,
+        growthOpportunities
+      }
+      
+      setAnalysis(newAnalysis)
+      return newAnalysis
+    } catch (error) {
+      console.error('Network analysis failed:', error)
+      return null
+    } finally {
+      setIsAnalyzing(false)
+    }
+  }
+
+  const generateFollowUpSuggestions = (contactId: string): string[] => {
+    const suggestions: string[] = [
+      'Send a personalized message referencing your last conversation',
+      'Share a relevant article or resource that might interest them',
+      'Invite them to a relevant industry event or webinar',
+      'Suggest a coffee meeting or virtual catch-up',
+      'Introduce them to someone valuable in your network'
+    ]
+    
+    // Return 2-3 random suggestions
+    const shuffled = suggestions.sort(() => 0.5 - Math.random())
+    return shuffled.slice(0, Math.floor(Math.random() * 2) + 2)
+  }
+
+  const predictNetworkGrowth = (currentContacts: number): { prediction: number; confidence: number } => {
+    // Simple growth prediction based on current network size
+    const growthRate = Math.max(0.1, 0.3 - (currentContacts / 1000))
+    const prediction = Math.floor(currentContacts * (1 + growthRate))
+    const confidence = Math.max(0.6, 0.9 - (currentContacts / 500))
+    
+    return {
+      prediction,
+      confidence: Math.round(confidence * 100)
+    }
+  }
+
   return {
     getAIContext,
     generateNetworkInsights,
-    suggestFollowUps
+    suggestFollowUps,
+    isAnalyzing,
+    analysis,
+    analyzeNetwork,
+    generateFollowUpSuggestions,
+    predictNetworkGrowth
   }
 }
