@@ -52,6 +52,7 @@ export const allModules = [
             { id: 'customize', label: 'Customize Widgets', icon: 'Settings', action: 'customize' }
         ],
         shortcut: 'Alt+1',
+        description: 'Central command center for a high-level overview of your entire life operating system.',
         usage: 95,
         tag: 'Core'
     },
@@ -69,6 +70,7 @@ export const allModules = [
             { id: 'view-history', label: 'View History', icon: 'Clock', action: 'view-history' }
         ],
         shortcut: 'Alt+2',
+        description: 'Your personal AI to augment thinking, automate tasks, and unlock creative potential.',
         usage: 88,
         tag: 'Core'
     },
@@ -86,6 +88,7 @@ export const allModules = [
             { id: 'start-timer', label: 'Start Timer', icon: 'Play', action: 'start-timer' }
         ],
         shortcut: 'Alt+3',
+        description: 'Master your time with intelligent scheduling, focus timers, and productivity analytics.',
         usage: 92,
         tag: 'Core'
     },
@@ -103,6 +106,7 @@ export const allModules = [
             { id: 'add-income', label: 'Add Income', icon: 'TrendingUp', action: 'add-income' }
         ],
         shortcut: 'Alt+4',
+        description: 'Achieve financial clarity with comprehensive budgeting, expense tracking, and investment monitoring.',
         usage: 75,
         tag: 'Core'
     },
@@ -116,11 +120,12 @@ export const allModules = [
         defaultPinned: true,
         allowQuickActions: true,
         rightClickMenuItems: [
-            { id: 'log-workout', label: 'Log Workout', icon: 'Activity', action: 'log-workout' },
-            { id: 'track-meal', label: 'Track Meal', icon: 'Utensils', action: 'track-meal' }
+            { id: 'log-workout', label: 'Log Workout', icon: 'Zap', action: 'log-workout' },
+            { id: 'log-meal', label: 'Log Meal', icon: 'Plus', action: 'log-meal' }
         ],
         shortcut: 'Alt+5',
-        usage: 82,
+        description: 'Engineer your well-being by tracking fitness, nutrition, sleep, and key health metrics.',
+        usage: 85,
         tag: 'Core'
     },
     {
@@ -137,6 +142,7 @@ export const allModules = [
             { id: 'focus-mode', label: 'Focus Mode', icon: 'Zap', action: 'focus-mode' }
         ],
         shortcut: 'Alt+6',
+        description: 'Define, track, and conquer your ambitions with structured goal setting and progress monitoring.',
         usage: 78,
         tag: 'Core'
     },
@@ -154,6 +160,7 @@ export const allModules = [
             { id: 'log-achievement', label: 'Log Achievement', icon: 'Award', action: 'log-achievement' }
         ],
         shortcut: 'Alt+7',
+        description: 'Strategically manage your professional growth, skills, and career trajectory.',
         usage: 65,
         tag: 'Personal'
     },
@@ -171,6 +178,7 @@ export const allModules = [
             { id: 'add-journal', label: 'Add Journal Entry', icon: 'Edit', action: 'add-journal' }
         ],
         shortcut: 'Alt+8',
+        description: 'Strengthen your mental well-being with tools for journaling, meditation, and mood tracking.',
         usage: 70,
         tag: 'Core'
     },
@@ -188,6 +196,7 @@ export const allModules = [
             { id: 'export-logs', label: 'Export Logs', icon: 'Download', action: 'export-logs' }
         ],
         shortcut: 'Alt+9',
+        description: 'Review and analyze your life\'s data with a comprehensive, searchable log of all activities.',
         usage: 60,
         tag: 'Core'
     },
@@ -204,6 +213,7 @@ export const allModules = [
             { id: 'add-contact', label: 'Add Contact', icon: 'UserPlus', action: 'add-contact' },
             { id: 'log-interaction', label: 'Log Interaction', icon: 'MessageSquare', action: 'log-interaction' }
         ],
+        description: 'Nurture and manage your personal and professional relationships with intention.',
         usage: 55,
         tag: 'Personal'
     },
@@ -220,6 +230,7 @@ export const allModules = [
             { id: 'add-goal', label: 'Add Goal', icon: 'Plus', action: 'add-goal' },
             { id: 'view-progress', label: 'View Progress', icon: 'TrendingUp', action: 'view-progress' }
         ],
+        description: 'Curate your long-term vision, values, and life\'s work to build a lasting legacy.',
         usage: 45,
         tag: 'Personal'
     },
@@ -236,6 +247,7 @@ export const allModules = [
             { id: 'add-book', label: 'Add Book', icon: 'Plus', action: 'add-book' },
             { id: 'log-study', label: 'Log Study Session', icon: 'Clock', action: 'log-study' }
         ],
+        description: 'Build your personal library of wisdom by capturing and organizing what you learn.',
         usage: 72,
         tag: 'Personal'
     },
@@ -252,6 +264,7 @@ export const allModules = [
             { id: 'add-connection', label: 'Add Connection', icon: 'UserPlus', action: 'add-connection' },
             { id: 'schedule-followup', label: 'Schedule Follow-up', icon: 'Calendar', action: 'schedule-followup' }
         ],
+        description: 'Intelligently manage and nurture your professional and personal networks.',
         usage: 58,
         tag: 'Personal'
     },
@@ -268,6 +281,7 @@ export const allModules = [
             { id: 'compose', label: 'Compose Message', icon: 'Edit', action: 'compose' },
             { id: 'check-inbox', label: 'Check Inbox', icon: 'Mail', action: 'check-inbox' }
         ],
+        description: 'Streamline your communications across multiple channels from a single, unified inbox.',
         usage: 62,
         tag: 'Personal'
     },
@@ -284,6 +298,7 @@ export const allModules = [
             { id: 'add-credential', label: 'Add Credential', icon: 'Plus', action: 'add-credential' },
             { id: 'security-check', label: 'Security Check', icon: 'Lock', action: 'security-check' }
         ],
+        description: 'Protect your most sensitive information with end-to-end encrypted data storage.',
         usage: 68,
         tag: 'Personal'
     },
@@ -300,6 +315,7 @@ export const allModules = [
             { id: 'add-event', label: 'Add Event', icon: 'Plus', action: 'add-event' },
             { id: 'view-today', label: 'View Today', icon: 'Calendar', action: 'view-today' }
         ],
+        description: 'Organize your schedule, events, and appointments in a smart, integrated calendar.',
         usage: 85,
         tag: 'Core'
     },
@@ -316,6 +332,7 @@ export const allModules = [
             { id: 'upload-file', label: 'Upload File', icon: 'Upload', action: 'upload-file' },
             { id: 'new-folder', label: 'New Folder', icon: 'FolderPlus', action: 'new-folder' }
         ],
+        description: 'Manage your digital files and documents with a powerful and intuitive file explorer.',
         usage: 70,
         tag: 'Core'
     },
@@ -332,6 +349,7 @@ export const allModules = [
             { id: 'standard-mode', label: 'Standard Mode', icon: 'Calculator', action: 'standard-mode' },
             { id: 'scientific-mode', label: 'Scientific Mode', icon: 'Calculator', action: 'scientific-mode' }
         ],
+        description: 'Perform calculations from simple arithmetic to complex scientific equations with a calculator that supports variables, functions, and unit conversions.',
         usage: 40,
         tag: 'Core'
     },
@@ -348,6 +366,7 @@ export const allModules = [
             { id: 'add-device', label: 'Add Device', icon: 'Plus', action: 'add-device' },
             { id: 'activate-mode', label: 'Activate Mode', icon: 'Power', action: 'activate-mode' }
         ],
+        description: 'Design and optimize your physical and digital environments for peak performance.',
         usage: 35,
         tag: 'Advanced'
     },
@@ -364,6 +383,7 @@ export const allModules = [
             { id: 'log-sleep', label: 'Log Sleep', icon: 'Moon', action: 'log-sleep' },
             { id: 'view-cycles', label: 'View Cycles', icon: 'Activity', action: 'view-cycles' }
         ],
+        description: 'Improve your sleep quality with advanced tracking, analysis, and personalized recommendations.',
         usage: 48,
         tag: 'Advanced'
     },
@@ -380,6 +400,7 @@ export const allModules = [
             { id: 'add-prayer', label: 'Add Prayer', icon: 'Plus', action: 'add-prayer' },
             { id: 'log-reflection', label: 'Log Reflection', icon: 'Edit', action: 'log-reflection' }
         ],
+        description: 'Cultivate inner peace and personal growth through guided practices and reflective exercises.',
         usage: 52,
         tag: 'Personal'
     },
@@ -396,6 +417,7 @@ export const allModules = [
             { id: 'take-snapshot', label: 'Take Snapshot', icon: 'Camera', action: 'take-snapshot' },
             { id: 'view-insights', label: 'View Insights', icon: 'Lightbulb', action: 'view-insights' }
         ],
+        description: 'Access a comprehensive, searchable archive of your digital interactions and personal data.',
         usage: 38,
         tag: 'Advanced'
     },
@@ -412,6 +434,7 @@ export const allModules = [
             { id: 'add-project', label: 'Add Project', icon: 'Plus', action: 'add-project' },
             { id: 'view-workflow', label: 'View Workflow', icon: 'List', action: 'view-workflow' }
         ],
+        description: 'Centralized hub for managing projects, workflows, and operational tasks.',
         usage: 42,
         tag: 'Advanced'
     },
@@ -428,6 +451,7 @@ export const allModules = [
             { id: 'add-member', label: 'Add Family Member', icon: 'UserPlus', action: 'add-member' },
             { id: 'add-event', label: 'Add Family Event', icon: 'Calendar', action: 'add-event' }
         ],
+        description: 'Organize and track family relationships, events, and shared responsibilities.',
         usage: 30,
         tag: 'Personal'
     },
@@ -444,6 +468,7 @@ export const allModules = [
             { id: 'add-key', label: 'Add Key', icon: 'Plus', action: 'add-key' },
             { id: 'security-audit', label: 'Security Audit', icon: 'Shield', action: 'security-audit' }
         ],
+        description: 'Empower yourself with tools to control and secure your digital identity and data.',
         usage: 25,
         tag: 'Advanced'
     },
@@ -460,6 +485,7 @@ export const allModules = [
             { id: 'add-signal', label: 'Add Signal', icon: 'Plus', action: 'add-signal' },
             { id: 'view-trends', label: 'View Trends', icon: 'TrendingUp', action: 'view-trends' }
         ],
+        description: 'Stay informed and gain insights into global trends, news, and geopolitical developments.',
         usage: 32,
         tag: 'Advanced'
     },
@@ -477,6 +503,7 @@ export const allModules = [
             { id: 'customize-dock', label: 'Customize Dock', icon: 'Settings', action: 'customize-dock' }
         ],
         shortcut: 'Alt+A',
+        description: 'Access and manage all your installed modules and applications.',
         usage: 50,
         tag: 'Core'
     },
@@ -493,7 +520,8 @@ export const allModules = [
             { id: 'account-settings', label: 'Account Settings', icon: 'User', action: 'account-settings' },
             { id: 'appearance', label: 'Appearance', icon: 'Palette', action: 'appearance' }
         ],
-        shortcut: 'Alt+,',
+        shortcut: 'Alt+S',
+        description: 'Customize your GalyarderOS experience, manage account preferences, and configure system behavior.',
         usage: 45,
         tag: 'Core'
     },
@@ -508,6 +536,7 @@ export const allModules = [
         allowQuickActions: false,
         rightClickMenuItems: [],
         shortcut: 'Ctrl+K',
+        description: 'Quickly access commands, modules, and actions across your entire system.',
         usage: 65,
         tag: 'Core'
     },
@@ -526,7 +555,7 @@ export const allModules = [
             { id: 'system-behavior', label: 'System Behavior', icon: 'Brain', action: 'system-behavior' }
         ],
         shortcut: 'Alt+K',
-        description: 'Configure how your OS behaves. Activate modes, modules, and meta-control your life systems.',
+        description: 'One of 27+ integrated modules designed to build your personal civilization.',
         usage: 55,
         tag: 'Advanced'
     }
