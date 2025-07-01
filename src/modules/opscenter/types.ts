@@ -7,7 +7,7 @@ export interface Project {
   startDate: string
   endDate: string
   progress: number
-  tasks: Task[]
+  tasks: string[]
   clients: string[]
   team: string[]
   tags: string[]
@@ -75,6 +75,7 @@ export interface WorkflowStep {
 
 export interface OpsCenterState {
   projects: Project[]
+  tasks: Task[]
   clients: Client[]
   workflows: Workflow[]
   

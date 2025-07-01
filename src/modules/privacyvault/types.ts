@@ -98,4 +98,7 @@ export interface PrivacyState {
   
   // Settings actions
   updatePrivacySettings: (settings: Partial<PrivacySettings>) => void
+  
+  // Log actions
+  logAccess: (action: AccessLog['action'], itemId?: string, details?: string) => void
 }
