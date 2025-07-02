@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAppStore } from '../../../lib/store'
+import { getThemeClasses } from '../../../lib/theme'
 import { getInitials, getAvatarGradient } from '../../../lib/utils'
 import { AIAssistantTerminal } from '../../aiassistant/components/AIAssistantTerminal'
 import { LifeAnalyticsGrid } from '../components/LifeAnalyticsGrid'
@@ -9,76 +10,132 @@ import { ConsciousnessOverview } from '../components/ConsciousnessOverview'
 
 export function Dashboard() {
   const { user } = useAppStore()
+  const { colors, glass } = getThemeClasses()
   const userInitials = getInitials(user?.name || 'User')
   const userGradient = getAvatarGradient(user?.name || 'User')
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24
+      }
+    }
+  }
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
+    <motion.div 
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-8"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="w-full max-w-7xl space-y-12">
         {/* Welcome Back Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={itemVariants}
           className="text-center"
         >
-          <h1 className="text-4xl font-medium text-slate-300 mb-8">
+          <motion.h1 
+            className="text-4xl font-medium mb-8"
+            style={{ color: colors.text.secondary }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400 }}
+          >
             Welcome Back
-          </h1>
+          </motion.h1>
         </motion.div>
 
         {/* User Profile Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          variants={itemVariants}
           className="text-center space-y-6"
         >
           {/* User Avatar or Galyarder Logo */}
           <div className="flex justify-center mb-6">
             {user?.avatar ? (
-              <img
-                src={user.avatar}
-                alt={user.name}
-                className="w-20 h-20 rounded-2xl object-cover shadow-2xl ring-4 ring-purple-500/30"
-              />
+                             <motion.img
+                 src={user.avatar}
+                 alt={user.name}
+                 className="w-20 h-20 rounded-2xl object-cover shadow-2xl ring-4 ring-purple-500/30"
+                 whileHover={{ 
+                   scale: 1.05,
+                   rotate: 2
+                 }}
+                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
+               />
             ) : (
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl">
+                             <motion.div 
+                 className="w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl ring-4 ring-purple-500/30"
+                 whileHover={{ 
+                   scale: 1.05,
+                   rotate: 5
+                 }}
+                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
+               >
                 <span className="text-white font-bold text-2xl">G</span>
-              </div>
+              </motion.div>
             )}
           </div>
 
           {/* User Name */}
-          <h2 className="text-5xl font-light text-white tracking-wide">
+          <motion.h2 
+            className="text-5xl font-light tracking-wide"
+            style={{ color: colors.text.primary }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400 }}
+          >
             {user?.name?.toLowerCase() || 'galyarder'}
-          </h2>
+          </motion.h2>
         </motion.div>
 
         {/* ULTIMATE CONSCIOUSNESS OVERVIEW - The Main Feature */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          variants={itemVariants}
+          whileHover={{ scale: 1.01 }}
+          transition={{ type: "spring", stiffness: 200, damping: 20 }}
         >
           <ConsciousnessOverview />
         </motion.div>
 
         {/* AI Assistant Terminal */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          variants={itemVariants}
           className="flex justify-center"
         >
-          <AIAssistantTerminal />
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          >
+            <AIAssistantTerminal />
+          </motion.div>
         </motion.div>
 
-        {/* Master Life by Design Section - Moved here */}
-        <MasterByDesignSection />
+        {/* Master Life by Design Section */}
+        <motion.div variants={itemVariants}>
+          <MasterByDesignSection />
+        </motion.div>
 
         {/* Life Analytics Grid */}
-        <LifeAnalyticsGrid />
+        <motion.div variants={itemVariants}>
+          <LifeAnalyticsGrid />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   )
 }

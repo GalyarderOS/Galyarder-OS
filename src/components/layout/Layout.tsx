@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
 import { useAuthStore } from '@/lib/consciousness/auth'
+import { getThemeClasses } from '@/lib/theme'
 import { Header } from './Header'
 import { Dock } from './Dock'
 import { MobileDrawer } from '../nav/MobileDrawer'
@@ -17,6 +18,8 @@ export function Layout({ children }: LayoutProps) {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const { user: appUser } = useAppStore()
   const { user: consciousnessUser, signOut } = useAuthStore()
+  
+  const { colors, isDark } = getThemeClasses()
 
   // Check consciousness authentication status
   useEffect(() => {
@@ -46,7 +49,15 @@ export function Layout({ children }: LayoutProps) {
   }, [])
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div 
+      className="min-h-screen transition-all duration-300"
+      style={{ 
+        backgroundColor: colors.bg.primary,
+        backgroundImage: isDark 
+          ? 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%)'
+          : 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%)'
+      }}
+    >
       <MobileDrawer />
       
       <div className="w-full">

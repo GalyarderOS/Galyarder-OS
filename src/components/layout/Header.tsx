@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Search, ChevronDown, Command } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useAppStore } from '@/lib/store'
+import { getThemeClasses } from '@/lib/theme'
+import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher'
 import { UserProfile } from './UserProfile'
 import { LogoutConfirmation } from './LogoutConfirmation'
 import logo from '../../assets/logo.png'
@@ -17,6 +19,8 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
   const [showUserProfile, setShowUserProfile] = useState(false)
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
+  
+  const { colors, glass, isDark } = getThemeClasses()
 
   // Update time every minute
   useEffect(() => {
@@ -84,62 +88,146 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
 
   return (
     <>
-      <header className="h-16 bg-slate-900/80 backdrop-blur-md border-b border-slate-700/30 flex items-center justify-between px-4 lg:px-8">
+      <motion.header 
+        className="h-16 border-b flex items-center justify-between px-4 lg:px-8 relative z-30"
+        style={{
+          backgroundColor: colors.bg.elevated,
+          borderColor: colors.border.primary,
+          backdropFilter: 'blur(16px)',
+        }}
+        initial={{ y: -64 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
         {/* Left: Logo and App Name */}
-        <div className="flex items-center space-x-3">
-          <Link to="/app/dashboard" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-            <img src={logo} alt="GalyarderOS Logo" className="w-8 h-8" />
-            <span className="text-white font-semibold text-lg hidden sm:block">GalyarderOS</span>
+        <motion.div 
+          className="flex items-center space-x-3"
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 400 }}
+        >
+          <Link 
+            to="/app/dashboard" 
+            className="flex items-center space-x-3 hover:opacity-80 transition-all duration-200 p-2 rounded-lg"
+            style={{ color: colors.text.primary }}
+          >
+            <motion.img 
+              src={logo} 
+              alt="GalyarderOS Logo" 
+              className="w-8 h-8"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.8 }}
+            />
+            <span className="font-semibold text-lg hidden sm:block">
+              GalyarderOS
+            </span>
           </Link>
-        </div>
+        </motion.div>
 
         {/* Center: Search/Command Palette */}
         <div className="hidden md:block relative max-w-md w-full mx-4">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
+          <Search 
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" 
+            style={{ color: colors.text.tertiary }}
+          />
+          <motion.input
             type="text"
             placeholder="Search modules, tasks, or insights..."
-            className="w-full pl-10 pr-10 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
+            className="w-full pl-10 pr-10 py-2.5 border rounded-xl text-sm transition-all duration-200 cursor-pointer"
+            style={{
+              backgroundColor: colors.bg.secondary,
+              borderColor: colors.border.primary,
+              color: colors.text.primary,
+            }}
             onFocus={onOpenCommandPalette}
             onClick={onOpenCommandPalette}
             readOnly
+            whileHover={{ scale: 1.01 }}
+            whileFocus={{ scale: 1.02 }}
           />
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
-            <Command className="w-3 h-3 text-slate-400" />
-            <span className="text-xs text-slate-400">K</span>
+            <Command 
+              className="w-3 h-3" 
+              style={{ color: colors.text.tertiary }}
+            />
+            <span 
+              className="text-xs" 
+              style={{ color: colors.text.tertiary }}
+            >
+              K
+            </span>
           </div>
         </div>
 
         {/* Mobile Search Button */}
-        <button 
-          className="md:hidden p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+        <motion.button 
+          className="md:hidden p-2 rounded-lg transition-colors"
+          style={{
+            color: colors.text.secondary,
+            backgroundColor: 'transparent'
+          }}
           onClick={onOpenCommandPalette}
+          whileHover={{ 
+            scale: 1.05,
+            backgroundColor: colors.bg.secondary 
+          }}
+          whileTap={{ scale: 0.95 }}
         >
           <Search className="w-5 h-5" />
-        </button>
+        </motion.button>
 
-        {/* Right: User Profile and Time */}
-        <div className="flex items-center space-x-4">
+        {/* Right: Theme Switcher, User Profile and Time */}
+        <div className="flex items-center space-x-3">
+          {/* Theme Switcher */}
+          <ThemeSwitcher />
+
           {/* User Profile */}
           <div className="relative">
-            <button
+            <motion.button
               onClick={() => setShowUserProfile(!showUserProfile)}
-              className="flex items-center space-x-3 p-2 hover:bg-slate-800/50 rounded-lg transition-colors group"
+              className="flex items-center space-x-3 p-2 rounded-lg transition-all duration-200 group"
+              style={{
+                backgroundColor: showUserProfile ? colors.bg.secondary : 'transparent'
+              }}
+              whileHover={{ 
+                backgroundColor: colors.bg.secondary,
+                scale: 1.02 
+              }}
+              whileTap={{ scale: 0.98 }}
             >
               {user?.avatar ? (
-                <img
-                  src={user.avatar}
-                  alt={user.name}
-                  className="w-8 h-8 rounded-full ring-2 ring-slate-700 group-hover:ring-blue-500 transition-all object-cover"
-                />
+                                 <motion.img
+                   src={user.avatar}
+                   alt={user.name}
+                   className="w-8 h-8 rounded-full ring-2 transition-all object-cover"
+                   style={{
+                     borderColor: showUserProfile ? colors.consciousness.primary : colors.border.secondary
+                   }}
+                   whileHover={{ scale: 1.1 }}
+                 />
               ) : (
-                <div className={`w-8 h-8 rounded-full ring-2 ring-slate-700 group-hover:ring-blue-500 transition-all bg-gradient-to-br ${defaultAvatar.gradient} flex items-center justify-center`}>
-                  <span className="text-white text-xs font-bold">{defaultAvatar.initials}</span>
-                </div>
+                                 <motion.div 
+                   className={`w-8 h-8 rounded-full ring-2 transition-all bg-gradient-to-br ${defaultAvatar.gradient} flex items-center justify-center`}
+                   style={{
+                     borderColor: showUserProfile ? colors.consciousness.primary : colors.border.secondary
+                   }}
+                   whileHover={{ scale: 1.1 }}
+                 >
+                  <span className="text-white text-xs font-bold">
+                    {defaultAvatar.initials}
+                  </span>
+                </motion.div>
               )}
               
-              <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform hidden sm:block ${showUserProfile ? 'rotate-180' : ''}`} />
-            </button>
+              <motion.div
+                animate={{ rotate: showUserProfile ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronDown 
+                  className="w-4 h-4 transition-transform hidden sm:block" 
+                  style={{ color: colors.text.secondary }}
+                />
+              </motion.div>
+            </motion.button>
 
             {/* User Profile Dropdown */}
             <AnimatePresence>
@@ -152,12 +240,27 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
           </div>
 
           {/* Time */}
-          <div className="text-right text-slate-300 hidden sm:block">
-            <div className="text-sm font-medium">{formattedTime}</div>
-            <div className="text-xs text-slate-400">{formattedDate}</div>
-          </div>
+          <motion.div 
+            className="text-right hidden sm:block"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div 
+              className="text-sm font-medium"
+              style={{ color: colors.text.primary }}
+            >
+              {formattedTime}
+            </div>
+            <div 
+              className="text-xs"
+              style={{ color: colors.text.tertiary }}
+            >
+              {formattedDate}
+            </div>
+          </motion.div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Logout Confirmation Modal */}
       <LogoutConfirmation

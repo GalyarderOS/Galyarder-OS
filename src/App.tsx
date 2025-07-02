@@ -9,6 +9,7 @@ import { AnimationDemo } from './pages/AnimationDemo'
 import { Settings } from './pages/Settings'
 import { useAppStore } from './lib/store'
 import { useKeyboardShortcuts } from './lib/hooks/useKeyboardShortcuts'
+import { initializeTheme } from './lib/theme'
 import { lazy } from 'react'
 
 // Lazy load all modules for code splitting
@@ -59,8 +60,13 @@ function App() {
   const location = useLocation()
   const { user, hasCompletedWelcome } = useAppStore()
   
-  // Initialize keyboard shortcuts
+  // Initialize keyboard shortcuts and theme system
   useKeyboardShortcuts()
+  
+  // Initialize theme system
+  useEffect(() => {
+    initializeTheme()
+  }, [])
 
   useEffect(() => {
     // If user is not logged in and trying to access protected routes
