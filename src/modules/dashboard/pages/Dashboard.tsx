@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAppStore } from '../../../lib/store'
 import { getThemeClasses } from '../../../lib/theme'
+import { useTranslation } from '../../../lib/i18n'
 import { getInitials, getAvatarGradient } from '../../../lib/utils'
 import { AIAssistantTerminal } from '../../aiassistant/components/AIAssistantTerminal'
 import { LifeAnalyticsGrid } from '../components/LifeAnalyticsGrid'
@@ -11,6 +12,7 @@ import { ConsciousnessOverview } from '../components/ConsciousnessOverview'
 export function Dashboard() {
   const { user } = useAppStore()
   const { colors, glass } = getThemeClasses()
+  const { t } = useTranslation()
   const userInitials = getInitials(user?.name || 'User')
   const userGradient = getAvatarGradient(user?.name || 'User')
 
@@ -57,7 +59,7 @@ export function Dashboard() {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400 }}
           >
-            Welcome Back
+            {t('dashboard.welcomeBack')}
           </motion.h1>
         </motion.div>
 
@@ -69,25 +71,25 @@ export function Dashboard() {
           {/* User Avatar or Galyarder Logo */}
           <div className="flex justify-center mb-6">
             {user?.avatar ? (
-                             <motion.img
-                 src={user.avatar}
-                 alt={user.name}
-                 className="w-20 h-20 rounded-2xl object-cover shadow-2xl ring-4 ring-purple-500/30"
-                 whileHover={{ 
-                   scale: 1.05,
-                   rotate: 2
-                 }}
-                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
-               />
+              <motion.img
+                src={user.avatar}
+                alt={user.name}
+                className="w-20 h-20 rounded-2xl object-cover shadow-2xl ring-4 ring-purple-500/30"
+                whileHover={{ 
+                  scale: 1.05,
+                  rotate: 2
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              />
             ) : (
-                             <motion.div 
-                 className="w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl ring-4 ring-purple-500/30"
-                 whileHover={{ 
-                   scale: 1.05,
-                   rotate: 5
-                 }}
-                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
-               >
+              <motion.div 
+                className="w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl ring-4 ring-purple-500/30"
+                whileHover={{ 
+                  scale: 1.05,
+                  rotate: 5
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
                 <span className="text-white font-bold text-2xl">G</span>
               </motion.div>
             )}

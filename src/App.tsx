@@ -10,6 +10,7 @@ import { Settings } from './pages/Settings'
 import { useAppStore } from './lib/store'
 import { useKeyboardShortcuts } from './lib/hooks/useKeyboardShortcuts'
 import { initializeTheme } from './lib/theme'
+import { initializeI18n } from './lib/i18n'
 import { lazy } from 'react'
 
 // Lazy load all modules for code splitting
@@ -63,9 +64,10 @@ function App() {
   // Initialize keyboard shortcuts and theme system
   useKeyboardShortcuts()
   
-  // Initialize theme system
+  // Initialize theme and i18n systems
   useEffect(() => {
     initializeTheme()
+    initializeI18n()
   }, [])
 
   useEffect(() => {

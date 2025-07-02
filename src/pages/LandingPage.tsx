@@ -12,6 +12,7 @@ import {
   Target,
   ChevronRight // Added ChevronRight for the "Explore All Modules" button
 } from 'lucide-react'
+import { useTranslation } from '../lib/i18n'
 import { Navbar } from '../components/landing/Navbar'
 import { HeroSection } from '../components/landing/HeroSection'
 // Removed ModulesShowcase import as its content will be embedded directly
@@ -29,6 +30,7 @@ import { modulesConfig } from '../data/modules.config'
 
 export function LandingPage() {
   const [activeCategory, setActiveCategory] = useState('all')
+  const { t } = useTranslation()
   
   // Filter modules based on category
   const filteredModules = activeCategory === 'all' 
@@ -66,6 +68,17 @@ export function LandingPage() {
     }
   };
 
+  // Get translated category name
+  const getCategoryName = (category: string) => {
+    const categoryMap = {
+      'all': t('landing.features', 'All'),
+      'core': t('modules.core', 'Core'),
+      'personal': t('modules.personal', 'Personal'),
+      'advanced': t('modules.advanced', 'Advanced')
+    }
+    return categoryMap[category as keyof typeof categoryMap] || category
+  }
+
   return (
     <div className="min-h-screen bg-slate-950">
       {/* Navigation */}
@@ -98,7 +111,9 @@ export function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <>Everything You Need to <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">Build Your Personal Civilization</span></>
+                <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+                  {t('landing.modulesTitle')}
+                </span>
               </motion.h2>
               <motion.p 
                 className="text-xl text-slate-300 max-w-3xl mx-auto"
@@ -107,7 +122,7 @@ export function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                27+ integrated life modules to master productivity, finance, health, relationships, and legacy.
+                {t('landing.modulesSubtitle')}
               </motion.p>
               
               {/* Category filters */}
@@ -128,7 +143,7 @@ export function LandingPage() {
                         : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                     }`}
                   >
-                    {category.charAt(0).toUpperCase() + category.slice(1)} Modules
+                    {getCategoryName(category)} {category !== 'all' && t('modules.title', 'Modules')}
                   </button>
                 ))}
               </motion.div>
@@ -159,7 +174,9 @@ export function LandingPage() {
                       </div>
                       <div>
                         <div className="flex items-center mb-2">
-                          <h3 className="text-xl font-semibold text-white">{module.name}</h3>
+                          <h3 className="text-xl font-semibold text-white">
+                            {t(`modules.${module.name.toLowerCase().replace(/\s+/g, '')}`, module.name)}
+                          </h3>
                           {module.category && (
                             <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${getTagColor(module.category)}`}>
                               {module.category}
@@ -187,7 +204,7 @@ export function LandingPage() {
                 to="/register"
                 className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all duration-200 shadow-lg shadow-blue-600/20"
               >
-                <span>Explore All Modules</span>
+                <span>{t('landing.exploreModules')}</span>
                 <ChevronRight className="w-5 h-5" />
               </Link>
             </motion.div>

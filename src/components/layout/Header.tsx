@@ -4,7 +4,9 @@ import { Search, ChevronDown, Command } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useAppStore } from '@/lib/store'
 import { getThemeClasses } from '@/lib/theme'
+import { useTranslation } from '@/lib/i18n'
 import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher'
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
 import { UserProfile } from './UserProfile'
 import { LogoutConfirmation } from './LogoutConfirmation'
 import logo from '../../assets/logo.png'
@@ -21,6 +23,7 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
   const [currentTime, setCurrentTime] = useState(new Date())
   
   const { colors, glass, isDark } = getThemeClasses()
+  const { t } = useTranslation()
 
   // Update time every minute
   useEffect(() => {
@@ -131,7 +134,7 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
           />
           <motion.input
             type="text"
-            placeholder="Search modules, tasks, or insights..."
+            placeholder={t('common.search', 'Search modules, tasks, or insights...')}
             className="w-full pl-10 pr-10 py-2.5 border rounded-xl text-sm transition-all duration-200 cursor-pointer"
             style={{
               backgroundColor: colors.bg.secondary,
@@ -175,8 +178,11 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
           <Search className="w-5 h-5" />
         </motion.button>
 
-        {/* Right: Theme Switcher, User Profile and Time */}
+                  {/* Right: Language Switcher, Theme Switcher, User Profile and Time */}
         <div className="flex items-center space-x-3">
+          {/* Language Switcher */}
+          <LanguageSwitcher />
+          
           {/* Theme Switcher */}
           <ThemeSwitcher />
 
