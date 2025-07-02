@@ -1,6 +1,427 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Root CSS Variables for Mobile */
+:root {
+  --vh: 1vh;
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+}
+
+/* Enhanced Base Styles */
+html {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Mobile-First Responsive Design */
+* {
+  box-sizing: border-box;
+}
+
+/* Enhanced Focus Styles */
+:focus-visible {
+  outline: 2px solid rgb(139, 92, 246);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Mobile Touch Optimization */
+@media (max-width: 768px) {
+  /* Prevent zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px !important;
+    border-radius: 8px;
+  }
+
+  /* Larger touch targets */
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+  }
+
+  /* Improved tap highlight */
+  * {
+    -webkit-tap-highlight-color: rgba(139, 92, 246, 0.2);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Allow text selection where needed */
+  input,
+  textarea,
+  [contenteditable],
+  .selectable {
+    -webkit-user-select: auto;
+    -khtml-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+  }
+
+  /* Hide scrollbars on mobile */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Smooth scrolling for iOS */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Fix for iOS viewport */
+  .min-h-screen {
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* PWA Standalone Mode Styles */
+@media (display-mode: standalone) {
+  /* Hide browser UI elements */
+  body {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Allow text selection in inputs */
+  input,
+  textarea,
+  [contenteditable] {
+    -webkit-user-select: auto;
+    user-select: auto;
+  }
+
+  /* Better app-like experience */
+  * {
+    -webkit-touch-callout: none;
+  }
+
+  /* Status bar styling for iOS */
+  @supports (-webkit-touch-callout: none) {
+    body {
+      padding-top: var(--safe-area-inset-top);
+    }
+  }
+}
+
+/* Enhanced Scrollbar Styles for Desktop */
+@media (min-width: 769px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.3);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.5);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+/* High DPI Display Optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  * {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  * {
+    outline: 2px solid;
+    outline-offset: 2px;
+  }
+
+  button:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: 3px solid;
+    outline-offset: 2px;
+  }
+}
+
+/* Custom Utility Classes */
+.glass-effect {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-effect-dark {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+.no-tap-highlight {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.safe-area-top {
+  padding-top: var(--safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: var(--safe-area-inset-bottom);
+}
+
+.safe-area-left {
+  padding-left: var(--safe-area-inset-left);
+}
+
+.safe-area-right {
+  padding-right: var(--safe-area-inset-right);
+}
+
+/* Animation Performance */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Mobile Keyboard Handling */
+@media (max-width: 768px) {
+  .keyboard-adjust {
+    transition: height 0.3s ease;
+  }
+
+  /* Adjust viewport when keyboard appears */
+  @supports (height: 100dvh) {
+    .full-height {
+      height: 100dvh;
+    }
+  }
+
+  @supports not (height: 100dvh) {
+    .full-height {
+      height: calc(var(--vh, 1vh) * 100);
+    }
+  }
+}
+
+/* Loading States */
+.loading-skeleton {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.1) 25%, rgba(139, 92, 246, 0.2) 50%, rgba(139, 92, 246, 0.1) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Error and Success States */
+.error-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.success-pulse {
+  animation: pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* PWA Install Prompt Styles */
+.pwa-install-prompt {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Notification Styles */
+.notification-enter {
+  animation: notificationSlideIn 0.3s ease-out;
+}
+
+.notification-exit {
+  animation: notificationSlideOut 0.3s ease-in;
+}
+
+@keyframes notificationSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes notificationSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* iOS Safe Area Adjustments */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .ios-safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .ios-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .ios-safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .ios-safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Android Specific Adjustments */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .android-keyboard-adjust {
+    height: calc(100vh - env(keyboard-inset-height, 0px));
+  }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+  /* Better text rendering in dark mode */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Print Styles */
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .print-page-break {
+    page-break-before: always;
+  }
+}
 
 @layer base {
   :root {
