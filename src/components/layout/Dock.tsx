@@ -1,6 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Home, MessageSquare, Settings, User } from 'lucide-react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { 
+  Home, Target, Brain, MessageSquare, BarChart3, Settings 
+} from 'lucide-react'
 import { getThemeClasses } from '@/lib/theme'
 import { useAppStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
@@ -16,8 +19,10 @@ interface DockItem {
 export function Dock() {
   const { colors, glass } = getThemeClasses()
   const { user } = useAppStore()
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  // Essential dock items
+  // Essential dock items for GalyarderOS
   const dockItems: DockItem[] = [
     {
       id: 'dashboard',
@@ -27,25 +32,39 @@ export function Dock() {
       color: colors.consciousness.primary
     },
     {
-      id: 'ai-chat',
-      label: 'AI Assistant',
-      icon: <MessageSquare className="w-5 h-5" />,
-      href: '/app/dashboard', // Same page, AI chat is embedded
+      id: 'productivity',
+      label: 'Productivity',
+      icon: <Target className="w-5 h-5" />,
+      href: '/app/productivity',
       color: colors.status.success
     },
     {
-      id: 'profile',
-      label: 'Profile',
-      icon: <User className="w-5 h-5" />,
-      href: '/app/dashboard', // Future: profile page
+      id: 'consciousness',
+      label: 'Consciousness',
+      icon: <Brain className="w-5 h-5" />,
+      href: '/app/consciousness',
+      color: colors.consciousness.secondary
+    },
+    {
+      id: 'ai-assistant',
+      label: 'AI Assistant',
+      icon: <MessageSquare className="w-5 h-5" />,
+      href: '/app/ai-assistant',
       color: colors.status.info
+    },
+    {
+      id: 'analytics',
+      label: 'Analytics',
+      icon: <BarChart3 className="w-5 h-5" />,
+      href: '/app/analytics',
+      color: colors.status.warning
     },
     {
       id: 'settings',
       label: 'Settings',
       icon: <Settings className="w-5 h-5" />,
-      href: '/app/dashboard', // Future: settings page
-      color: colors.status.warning
+      href: '/app/settings',
+      color: colors.text.tertiary
     }
   ]
 
@@ -71,8 +90,13 @@ export function Dock() {
             }}
           >
             <div className="flex items-center justify-around">
-              {dockItems.map((item) => (
-                <DockItemButton key={item.id} item={item} />
+              {dockItems.slice(0, 4).map((item) => (
+                <DockItemButton 
+                  key={item.id} 
+                  item={item} 
+                  isActive={location.pathname === item.href}
+                  onClick={() => navigate(item.href)}
+                />
               ))}
             </div>
           </div>
@@ -98,7 +122,12 @@ export function Dock() {
           >
             <div className="flex items-center space-x-2">
               {dockItems.map((item) => (
-                <DockItemButton key={item.id} item={item} />
+                <DockItemButton 
+                  key={item.id} 
+                  item={item} 
+                  isActive={location.pathname === item.href}
+                  onClick={() => navigate(item.href)}
+                />
               ))}
             </div>
           </div>
@@ -108,22 +137,20 @@ export function Dock() {
   )
 }
 
-function DockItemButton({ item }: { item: DockItem }) {
+function DockItemButton({ 
+  item, 
+  isActive, 
+  onClick 
+}: { 
+  item: DockItem
+  isActive: boolean
+  onClick: () => void
+}) {
   const { colors } = getThemeClasses()
-  const isActive = window.location.pathname === item.href
-
-  const handleClick = () => {
-    if (item.href === '/app/dashboard' && window.location.pathname === '/app/dashboard') {
-      // If already on dashboard, scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    } else {
-      window.location.href = item.href
-    }
-  }
 
   return (
     <motion.button
-      onClick={handleClick}
+      onClick={onClick}
       className="relative p-3 rounded-xl transition-all duration-200 group"
       style={{
         backgroundColor: isActive ? `${item.color}20` : 'transparent'
